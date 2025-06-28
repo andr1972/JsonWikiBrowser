@@ -51,6 +51,7 @@ void JsonViewerWidget::buildTree(const QJsonValue& value, QStandardItem* parent)
 
 void JsonViewerWidget::loadJsonFromText(const QString& text) {
     QJsonParseError err;
+    qDebug() << "JsonViewerWidget::loadJsonFromText: " << text;
     QJsonDocument doc = QJsonDocument::fromJson(text.toUtf8(), &err);
     if (err.error == QJsonParseError::NoError) {
         model->clear();

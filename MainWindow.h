@@ -14,5 +14,4 @@ private:
     QSplitter* splitter;
     void loadJsonFile(const QString& path);
     void loadJsonlFile(const QString& path);
-    void updateCentralWidget(QWidget* widget);
 };

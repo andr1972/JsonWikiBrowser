@@ -8,7 +8,7 @@
 
 JsonlNavigator::JsonlNavigator(QWidget* parent)
     : QWidget(parent), inputEdit(new QLineEdit(this)),
-      searchTypeCombo(new QComboBox(this)), searchButton(new QPushButton("Search", this)),
+      searchTypeCombo(new QComboBox(this)), searchButton(new QPushButton("Goto", this)),
       statusLabel(new QLabel(this)), treeView(new QTreeView(this)),
       model(new QStandardItemModel(this)) {
 
@@ -45,17 +45,19 @@ void JsonlNavigator::loadJsonlFile(const QString& path, bool enableIndexing) {
 }
 
 void JsonlNavigator::buildIndex(bool includeMaps) {
-    QTextStream in(&file);
-    qint64 pos = 0;
-    while (!in.atEnd()) {
-        lineOffsets.append(pos);
-        QString line = in.readLine();
-        pos = file.pos();
+    file.seek(0); // reset to start
+    lineOffsets.clear();
+    idToLine.clear();
+    labelToLine.clear();
 
+    while (!file.atEnd()) {
+        qint64 pos = file.pos();
+        QByteArray line = file.readLine();
+        lineOffsets.append(pos);
 
         if (includeMaps) {
             QJsonParseError err;
-            QJsonDocument doc = QJsonDocument::fromJson(line.toUtf8(), &err);
+            QJsonDocument doc = QJsonDocument::fromJson(line, &err);
             if (!err.error && doc.isObject()) {
                 QJsonObject obj = doc.object();
                 if (obj.contains("id")) idToLine[obj["id"].toString()] = lineOffsets.size() - 1;

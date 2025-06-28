@@ -61,9 +61,3 @@ void MainWindow::loadJsonlFile(const QString& path) {
     navigator->setFocus();
     splitter->setSizes({1, 1}); // show both
 }
-
-void MainWindow::updateCentralWidget(QWidget* widget) {
-    if (centralWidget() != widget) {
-        setCentralWidget(widget);
-    }
-}
