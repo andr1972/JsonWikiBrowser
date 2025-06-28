@@ -29,8 +29,11 @@ FileOpenDialog::FileOpenDialog(QWidget* parent)
     setLayout(bottomLayout);
 
     connect(chooseFileBtn, &QPushButton::clicked, this, [this]() {
-        QString fileName = QFileDialog::getOpenFileName(this, "Select File");
-        if (!fileName.isEmpty()) {
+        QFileDialog dialog(this);
+        dialog.setOption(QFileDialog::DontUseNativeDialog, true);
+        dialog.setFileMode(QFileDialog::ExistingFile);
+        if (dialog.exec() == QDialog::Accepted) {
+            QString fileName = dialog.selectedFiles().first();
             QFileInfo info(fileName);
             if (info.suffix() == "json" && info.size() > 40 * 1024 * 1024) {
                 selectedFileLabel->setText("File too large (limit 40MB for JSON).");

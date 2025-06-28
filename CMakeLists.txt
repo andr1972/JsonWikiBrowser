@@ -15,6 +15,8 @@ qt_add_executable(JsonWikiBrowser
         MainWindow.cpp MainWindow.h
         FileOpenDialog.cpp FileOpenDialog.h
         JsonViewerWidget.cpp JsonViewerWidget.h
+        JsonlNavigator.cpp
+        JsonlNavigator.h
 )
 
 target_link_libraries(JsonWikiBrowser PRIVATE Qt6::Widgets)

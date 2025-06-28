@@ -48,3 +48,14 @@ void JsonViewerWidget::buildTree(const QJsonValue& value, QStandardItem* parent)
         }
     }
 }
+
+void JsonViewerWidget::loadJsonFromText(const QString& text) {
+    QJsonParseError err;
+    QJsonDocument doc = QJsonDocument::fromJson(text.toUtf8(), &err);
+    if (err.error == QJsonParseError::NoError) {
+        model->clear();
+        model->setHorizontalHeaderLabels({ "Key", "Value" });
+        QStandardItem* root = model->invisibleRootItem();
+        buildTree(doc.isObject() ? QJsonValue(doc.object()) : QJsonValue(doc.array()), root);
+    }
+}

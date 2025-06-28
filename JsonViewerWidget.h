@@ -10,6 +10,7 @@ class JsonViewerWidget : public QWidget {
 public:
     JsonViewerWidget(QWidget* parent = nullptr);
     void loadJson(const QString& path);
+    void loadJsonFromText(const QString &text);
 
 private:
     QTreeView* treeView;
