@@ -74,14 +74,11 @@ void JsonlNavigator::buildIndex(bool includeMaps) {
 
 QString JsonlNavigator::readLineAt(int lineNumber) {
     if (lineNumber < 0 || lineNumber >= lineOffsets.size()) return {};
-    qDebug() << "Seeking offset:" << lineOffsets[lineNumber];
-    qDebug() << "Line read:" << file.readLine();
     file.seek(lineOffsets[lineNumber]);
     return file.readLine();
 }
 
 void JsonlNavigator::onGoto() {
-    qDebug() << "onSearch triggered";
     int lineNumber = -1;
     QString key = inputEdit->text();
     QString type = searchTypeCombo->currentText();
@@ -94,9 +91,6 @@ void JsonlNavigator::onGoto() {
         lineNumber = labelToLine.value(key, -1);
     }
 
-    qDebug() << "Search type:" << searchTypeCombo->currentText();
-    qDebug() << "Search key:" << inputEdit->text();
-    qDebug() << "Line number resolved:" << lineNumber;
     if (lineNumber >= 0) {
         QString line = readLineAt(lineNumber);
         displayJson(line);
