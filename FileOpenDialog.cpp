@@ -36,6 +36,8 @@ FileOpenDialog::FileOpenDialog(QWidget* parent)
                 selectedFileLabel->setText("File too large (limit 40MB for JSON).");
             } else {
                 selectedFileLabel->setText(fileName);
+                selectedFilePath = fileName;
+                accept();
             }
         }
     });
