@@ -27,7 +27,7 @@ JsonlNavigator::JsonlNavigator(QWidget* parent)
     treeView->setModel(model);
     model->setHorizontalHeaderLabels({"Key", "Value"});
 
-    connect(searchButton, &QPushButton::clicked, this, &JsonlNavigator::onSearch);
+    connect(searchButton, &QPushButton::clicked, this, &JsonlNavigator::onGoto);
 }
 
 void JsonlNavigator::loadJsonlFile(const QString& path, bool enableIndexing) {
@@ -80,7 +80,7 @@ QString JsonlNavigator::readLineAt(int lineNumber) {
     return file.readLine();
 }
 
-void JsonlNavigator::onSearch() {
+void JsonlNavigator::onGoto() {
     qDebug() << "onSearch triggered";
     int lineNumber = -1;
     QString key = inputEdit->text();

@@ -1,6 +1,5 @@
+#pragma once
 #include <QMainWindow>
-#include <QSplitter>
-class JsonViewerWidget;
 class JsonlNavigator;
 
 class MainWindow : public QMainWindow {
@@ -9,9 +8,9 @@ public:
     MainWindow(QWidget* parent = nullptr);
 
 private:
-    JsonViewerWidget* viewer;
+
     JsonlNavigator* navigator;
-    QSplitter* splitter;
+
     void loadJsonFile(const QString& path);
     void loadJsonlFile(const QString& path);
 };

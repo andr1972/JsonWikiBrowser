@@ -1,6 +1,5 @@
 #include "MainWindow.h"
 #include "FileOpenDialog.h"
-#include "JsonViewerWidget.h"
 #include "JsonlNavigator.h"
 #include <QMenuBar>
 #include <QAction>
@@ -14,16 +13,8 @@ MainWindow::MainWindow(QWidget* parent)
     setWindowTitle("JsonWikiBrowser");
     resize(800, 600);
 
-    splitter = new QSplitter(this);
     navigator = new JsonlNavigator(this);
-    viewer = new JsonViewerWidget(this);
-
-    splitter->addWidget(navigator);
-    splitter->addWidget(viewer);
-    setCentralWidget(splitter);
-
-    connect(navigator, &JsonlNavigator::jsonSelected,
-            viewer, &JsonViewerWidget::loadJsonFromText); // default
+    setCentralWidget(navigator); // default
 
     auto* fileMenu = menuBar()->addMenu("File");
     auto* openAct = new QAction("Open", this);
@@ -51,13 +42,19 @@ MainWindow::MainWindow(QWidget* parent)
 }
 
 void MainWindow::loadJsonFile(const QString& path) {
-    viewer->loadJson(path);
-    splitter->setSizes({0, 1}); // hide navigator
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return;
+    QByteArray data = file.readAll();
+    file.close();
+    navigator->displayJson(QString::fromUtf8(data));
+    setCentralWidget(navigator);
 }
 
 void MainWindow::loadJsonlFile(const QString& path) {
     navigator->setFocusPolicy(Qt::StrongFocus);
+    connect(navigator, &JsonlNavigator::jsonSelected,
+            navigator, &JsonlNavigator::displayJson);
     navigator->loadJsonlFile(path, true);
     navigator->setFocus();
-    splitter->setSizes({1, 1}); // show both
+
 }

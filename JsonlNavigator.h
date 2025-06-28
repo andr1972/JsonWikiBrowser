@@ -16,9 +16,10 @@ class JsonlNavigator : public QWidget {
 public:
     JsonlNavigator(QWidget* parent = nullptr);
     void loadJsonlFile(const QString& path, bool enableIndexing);
+    void displayJson(const QString& jsonLine);
 
 private slots:
-    void onSearch();
+    void onGoto();
 
 signals:
     void jsonSelected(const QString& jsonText);
@@ -38,6 +39,5 @@ private:
 
     void buildIndex(bool includeMaps);
     QString readLineAt(int lineNumber);
-    void displayJson(const QString& jsonLine);
     void buildTree(const QJsonValue& value, QStandardItem* parent);
 };
